@@ -55,6 +55,9 @@ dkms.conf
 *.dwo
 astrahm
 *.o
+*.swp
+*~
+.DS_Store
 build/
 astrahm
 *.o

@@ -46,29 +46,39 @@ void raid6_encode() {
 }
 
 /*
- * Simulate disk failure recovery
- *
- * RAID-6 can recover data from parity.
- * Here we simulate loss of d2.
- */
-
-void raid6_recover() {
-  int d1 = 10, d2 = 20, d3 = 30;
-
-  int parity_p = d1 ^ d2 ^ d3;
-
-  printf("\nSimulating disk failure...\n");
-  printf("Disk2 FAILED\n");
-
-  int recovered_d2 = d1 ^ d3 ^ parity_p;
-
-  printf("Recovered missing block: %d\n", recovered_d2);
-}
-
-/*
  * Display how data & parity are distributed
  * across disks in a RAID-6 stripe.
  */
+
+/*
+ * Simulate disk failure and recovery
+ *
+ * RAID systems reconstruct lost data using parity.
+ */
+void raid6_recover() {
+  int d1 = 10, d2 = 20, d3 = 30;
+
+  // simulate stored parity
+  int parity_p = d1 ^ d2 ^ d3;
+
+  printf("\n--- RAID FAILURE SIMULATION ---\n");
+
+  // simulate disk failure
+  printf("Disk2 FAILED -> data lost\n");
+
+  // reconstruct missing data
+  int recovered_d2 = d1 ^ d3 ^ parity_p;
+
+  printf("Reconstructing data using parity...\n");
+  printf("Recovered block value: %d\n", recovered_d2);
+
+  // verify integrity
+  if (recovered_d2 == d2) {
+    printf("Integrity check: SUCCESS ✅\n");
+  } else {
+    printf("Integrity check: FAILED ❌\n");
+  }
+}
 
 void raid6_layout() {
 
