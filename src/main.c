@@ -1,11 +1,13 @@
+#include "raid6.h"
 #include <stdio.h>
-// #include "raid6.h"
 
 int main() {
   printf("AstraHM Storage Engine Starting...\n");
 
-  //    raid6_init();
-  //  raid6_encode();   // simulate parity generation
+  raid6_init();
+  raid6_encode();
+  raid6_recover();
+  raid6_layout();
 
   return 0;
 }
