@@ -12,7 +12,8 @@ src/storage/stripe.c \
 src/storage/rebuild.c \
 src/storage/disk_manager.c \
 src/storage/parallel_io.c \
-src/storage/thread_io.c
+src/storage/thread_io.c	\
+src/storage/io_queue.c
 
 TARGET = astrahm
 

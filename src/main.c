@@ -7,6 +7,7 @@
  */
 #include "disk.h"
 #include "disk_manager.h"
+#include "io_queue.h"
 #include "logger.h"
 #include "metadata.h"
 #include "parallel_io.h"
@@ -15,13 +16,15 @@
 #include "stripe.h"
 #include "thread_io.h"
 #include <stdio.h>
+// #include <unistd.h>
 int main() {
   printf("AstraHM Storage Engine Starting...\n");
 
   log_info("Storage engine boot sequence started");
 
+  // RAID engine
   dm_init();
-
+  io_start_worker();
   // RAID engine
   raid6_init();
   raid6_encode();
@@ -32,21 +35,25 @@ int main() {
   parallel_write_demo();
   threaded_write_demo();
 
-  // ========================
-  // Disk abstraction layer
-  // ========================
-  // disk_t d1, d2, d3;
+  printf("\n--- Async Worker Demo ---\n");
+
+  io_enqueue(1, 501);
+  io_enqueue(2, 502);
+  io_enqueue(3, 503);
+
+  printf("Engine continues working...\n");
+
+  // sleep(3); // allow worker to process
+
+  // printf("\n--- Async IO Queue Demo ---\n");
   //
-  // disk_init(&d1, 1);
-  // disk_init(&d2, 2);
-  // disk_init(&d3, 3);
+  // io_enqueue(1, 401);
+  // io_enqueue(2, 402);
+  // io_enqueue(3, 403);
   //
-  // disk_write(&d1, 101);
-  // disk_write(&d2, 102);
-  // disk_read(&d1, 101);
+  // printf("Engine continues working while IO waits...\n");
   //
-  // disk_fail(&d2);
-  // disk_write(&d2, 999); // should fail
+  // io_process_queue();
 
   // ========================
   // Metadata mapping
@@ -55,6 +62,8 @@ int main() {
   metadata_map_block(1);
   metadata_map_block(2);
   metadata_map_block(3);
+
+  io_stop_worker();
 
   return 0;
 }
