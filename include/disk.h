@@ -15,8 +15,10 @@
  */
 
 typedef struct {
-  int id;
-  int online;
+  int id;                // disk identifier
+  int block;             // stored block value
+  int online;            // disk status
+  unsigned int checksum; // block checksum
 } disk_t;
 
 void disk_init(disk_t *d, int id);

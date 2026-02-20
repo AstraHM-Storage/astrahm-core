@@ -8,8 +8,8 @@
 
 #include "disk.h"
 #include "disk_manager.h"
+#include "logger.h" // ✅ ADD THIS
 #include <stdio.h>
-
 /*
  * Simulate rebuilding a failed disk
  */
@@ -37,7 +37,13 @@ void stripe_rebuild() {
   printf("Writing recovered block to replacement disk...\n");
 
   disk_t replacement;
-  disk_init(&replacement, 6);
+  disk_init(&replacement, 6); // initialize disk first
+
+  char buffer[64];
+  sprintf(buffer, "Disk %d initialized (replacement)", replacement.id);
+  log_info(buffer);
+
   disk_write(&replacement, recovered);
+
   printf("Rebuild complete ✅\n");
 }
