@@ -4,6 +4,7 @@
  *
  * Author: Mohammad Javed
  * Description: RAID6 module implementation.
+ * Provides parity generation and recovery simulation.
  */
 
 #include "raid6.h"

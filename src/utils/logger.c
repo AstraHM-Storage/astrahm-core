@@ -3,7 +3,9 @@
  * Copyright (c) 2026 AstraHM
  *
  * Author: Mohammad Javed
- * Description: RAID6 module implementation.
+ *
+ * Logging subsystem.
+ * Provides runtime logging utilities.
  */
 
 #include "logger.h"

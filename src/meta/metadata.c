@@ -3,7 +3,10 @@
  * Copyright (c) 2026 AstraHM
  *
  * Author: Mohammad Javed
- * Description: RAID6 module implementation.
+ *
+ * Provides parity generation and recovery simulation.
+ * Tracks block placement and storage mapping.
+ *
  */
 #include "metadata.h"
 #include <stdio.h>

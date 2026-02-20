@@ -3,7 +3,7 @@
  * Copyright (c) 2026 AstraHM
  *
  * Author: Mohammad Javed
- * Description: RAID6 module implementation.
+ * RAID6 module interface.
  */
 
 #ifndef METADATA_H

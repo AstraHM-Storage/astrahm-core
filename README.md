@@ -1,3 +1,7 @@
+## License
+
+This project is licensed under the MIT License.
+
 # astrahm-core
 Hybrid Mesh Storage Fabric core engine for HPC, AI, and enterprise infrastructure.
 # AstraHM Core
