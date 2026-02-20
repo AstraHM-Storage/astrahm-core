@@ -56,3 +56,6 @@ dkms.conf
 astrahm
 *.o
 build/
+astrahm
+*.o
+build/
