@@ -3,7 +3,9 @@
  * Disk Health Monitoring & Scorin g
  */
 #include "disk_health.h"
+#include "disk.h"
 #include "logger.h"
+#include <stdio.h>
 
 void disk_update_health(disk_t *d) {
   int score = 100 - (d->error_count * 5) - (d->offline_events * 10) -
@@ -18,11 +20,23 @@ void disk_update_health(disk_t *d) {
 void disk_health_check(disk_t *d) {
   if (d->health_score < 40) {
     log_error("Disk health CRITICAL");
+    //    disk_isolate(d);
   } else if (d->health_score < 60) {
     log_warn("Disk health DEGRADED");
   }
 }
 
+void disk_isolate(disk_t *d) {
+
+  if (d->isolated)
+    return;
+
+  d->isolated = 1;
+
+  char msg[80];
+  sprintf(msg, "Disk %d isolated due to poor health", d->id);
+  log_warn(msg);
+}
 //
 // #include "disk_health.h"
 // #include "logger.h"

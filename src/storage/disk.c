@@ -16,6 +16,7 @@ void disk_init(disk_t *d, int id) {
   d->offline_events = 0;
   d->checksum_failures = 0;
   d->health_score = 100;
+  d->isolated = 0;
 }
 
 /*
@@ -23,13 +24,18 @@ void disk_init(disk_t *d, int id) {
  */
 void disk_write(disk_t *d, int block) {
 
-  if (!d->online) {
+  if (!d->online || d->isolated) {
     char msg[64];
-    sprintf(msg, "Disk %d OFFLINE — write failed", d->id);
+    sprintf(msg, "Disk %d unavailable — write blocked", d->id);
     log_warn(msg);
+    //
+    //    char msg[64];
+    //    sprintf(msg, "Disk %d OFFLINE — write failed", d->id);
+    //    log_warn(msg);
 
     d->error_count++;
     d->offline_events++;
+    // d->isolated = 0;
     disk_update_health(d);
     d->health_score -= 10;
     return;

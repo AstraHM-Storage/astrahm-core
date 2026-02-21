@@ -18,16 +18,6 @@ void dm_init() {
     log_info(buffer);
   }
 }
-// void dm_init() {
-//   char buffer[64];
-//   sprintf(buffer, "Disk %d initialized", id);
-//   log_info(buffer);
-//   // printf("\nInitializing Disk Manager...\n");
-//   //
-//   // for (int i = 0; i < 5; i++) {
-//   //   disk_init(&disks[i], i + 1);
-//   // }
-// }
 
 /*
  * Retrieve disk by id
