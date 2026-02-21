@@ -20,17 +20,20 @@
 #include <string.h>
 // #include <unistd.h>
 int main() {
-  /* Configure log level from environment */
-  log_set_level(LOG_INFO);
 
+  /* Configure log level from environment */
   char *env = getenv("ASTRAHM_LOG");
 
-  if (env) {
-    if (strcmp(env, "warn") == 0)
-      log_set_level(LOG_WARN);
-    else if (strcmp(env, "error") == 0)
-      log_set_level(LOG_ERROR);
+  //  printf("ENV=%s\n", env);
+
+  if (env && strcmp(env, "warn") == 0) {
+    log_set_level(LOG_WARN);
+  } else if (env && strcmp(env, "error") == 0) {
+    log_set_level(LOG_ERROR);
+  } else {
+    log_set_level(LOG_INFO); // default
   }
+
   printf("AstraHM Storage Engine Starting...\n");
 
   log_info("Storage engine boot sequence started");
@@ -47,7 +50,11 @@ int main() {
   stripe_rebuild();
   parallel_write_demo();
   threaded_write_demo();
-  // log_error("Test error message");
+  // log_info("INFO test");
+  // log_warn("WARN test");
+  // log_error("ERROR test");
+
+  log_info("Storage engine run complete");
 
   printf("\n--- Async Worker Demo ---\n");
 

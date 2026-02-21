@@ -1,6 +1,6 @@
 # Compiler
 CC = gcc
-CFLAGS = -Wall -Wextra -O2 -pthread -Iinclude
+CFLAGS = -Wall -Wextra -Werror -O2 -pthread -Iinclude
 
 SRC = \
 src/main.c \
@@ -14,7 +14,8 @@ src/storage/disk_manager.c \
 src/storage/parallel_io.c \
 src/storage/thread_io.c	\
 src/storage/io_queue.c \
-src/utils/checksum.c
+src/utils/checksum.c \
+src/storage/disk_health.c
 
 TARGET = astrahm
 

@@ -5,8 +5,8 @@
  * Author: Mohammad Javed
  * Description: RAID6 module implementation.
  */
-
 #include "disk.h"
+#include "disk_health.h"
 #include "disk_manager.h"
 #include <stdio.h>
 
@@ -32,6 +32,9 @@ void stripe_write() {
   disk_write(d3, b3);
   disk_write(p_disk, parity_p);
   disk_write(q_disk, parity_q);
+  disk_health_check(d1);
+  disk_health_check(d2);
+  disk_health_check(d3);
 
   printf("Stripe write complete\n");
 }

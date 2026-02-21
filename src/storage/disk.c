@@ -1,5 +1,6 @@
 #include "disk.h"
 #include "checksum.h"
+#include "disk_health.h"
 #include "logger.h"
 #include <stdio.h>
 
@@ -11,23 +12,26 @@ void disk_init(disk_t *d, int id) {
   d->online = 1;
   d->block = 0;
   d->checksum = 0;
-
-  //  printf("Disk %d initialized\n", id);
+  d->error_count = 0;
+  d->offline_events = 0;
+  d->checksum_failures = 0;
+  d->health_score = 100;
 }
 
 /*
  * Simulate write operation
  */
 void disk_write(disk_t *d, int block) {
+
   if (!d->online) {
     char msg[64];
     sprintf(msg, "Disk %d OFFLINE — write failed", d->id);
     log_warn(msg);
-    // char buffer[64];
-    // sprintf(buffer, "Disk %d OFFLINE — write failed", d->id);
-    // log_warn(buffer);
 
-    //    printf("Disk %d OFFLINE — write failed\n", d->id);
+    d->error_count++;
+    d->offline_events++;
+    disk_update_health(d);
+    d->health_score -= 10;
     return;
   }
 
@@ -44,7 +48,14 @@ void disk_read(disk_t *d, int block) {
   (void)block; // explicitly mark unused
 
   if (!d->online) {
-    printf("Disk %d OFFLINE — read failed\n", d->id);
+    char msg[64];
+    sprintf(msg, "Disk %d OFFLINE — write failed", d->id);
+    log_warn(msg);
+
+    d->error_count++;
+    d->checksum_failures++;
+    disk_update_health(d);
+    d->health_score -= 10;
     return;
   }
 
@@ -52,7 +63,6 @@ void disk_read(disk_t *d, int block) {
     char buffer[64];
     sprintf(buffer, "Data corruption detected on Disk %d", d->id);
     log_error(buffer);
-    //    printf("⚠ DATA CORRUPTION detected on Disk %d!\n", d->id);
     return;
   }
   printf("Reading block %d <- Disk %d (integrity OK)\n", d->block, d->id);
